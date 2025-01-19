@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Stopwatch</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #121212; /* Dark background */
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #fff; /* Light text for contrast */
+    }
+    .stopwatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: #1e1e1e; /* Darker box background */
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .controls {
+      margin-top: 20px;
+    }
+    .controls button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: #fff;
+      background: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .controls button:hover {
+      background: #0056b3;
+    }
+    .timer {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-top: 20px;
+      color: #4caf50; /* Green for the timer text */
+    }
+  </style>
+</head>
+<body>
+  <div class="stopwatch">
+    <div class="controls">
+      <button onclick="startTimer()">Start</button>
+      <button onclick="stopTimer()">Stop</button>
+      <button onclick="resetTimer()">Reset</button>
+    </div>
+    <div class="timer" id="timer">00:00:00</div>
+  </div>
+
+  <script>
+    let timerInterval;
+    let elapsedSeconds = 0;
+
+    function formatTime(seconds) {
+      const hours = String(Math.floor(seconds / 3600)).padStart(2, '0');
+      const minutes = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+      const secs = String(seconds % 60).padStart(2, '0');
+      return `${hours}:${minutes}:${secs}`;
+    }
+
+    function updateTimerDisplay() {
+      const timerElement = document.getElementById('timer');
+      timerElement.textContent = formatTime(elapsedSeconds);
+    }
+
+    function startTimer() {
+      if (timerInterval) return;
+      timerInterval = setInterval(() => {
+        elapsedSeconds++;
+        updateTimerDisplay();
+      }, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+
+    function resetTimer() {
+      stopTimer();
+      elapsedSeconds = 0;
+      updateTimerDisplay();
+    }
+
+    // Initialize the timer display
+    updateTimerDisplay();
+  </script>
+</body>
+</html>
